@@ -9,6 +9,7 @@ export function errorHandler(err: Error, _req: Request, res: Response, _next: Ne
             error: { code: err.code, message: err.message }
         })
     }
+    console.log('err in midddleware',err)
 
     return res.status(500).json({
             success: false,

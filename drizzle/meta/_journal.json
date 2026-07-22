@@ -22,6 +22,20 @@
       "when": 1784366001834,
       "tag": "0002_cool_greymalkin",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784710134669,
+      "tag": "0003_tiny_thanos",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1784711249261,
+      "tag": "0004_cultured_alex_power",
+      "breakpoints": true
     }
   ]
 }

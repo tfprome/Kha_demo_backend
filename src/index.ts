@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
+import adminProductRoutes from './routes/admin/product.routes'
 
 import { errorHandler } from "./middleware/error.middleware";
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
+app.use('/api/admin/products',adminProductRoutes)
 
 app.use(errorHandler)
 
