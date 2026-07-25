@@ -31,7 +31,6 @@ export function signRefreshToken(payload: BasePayload): { token: string, jti: st
 
 export function verifyAccessToken(token:string){
     const decoded= jwt.verify(token,config.jwtAccessSecret) as tokenType
-    //console.log(decoded)
     return decoded
 }
 

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as authService from "../services/auth.service";
 import { AppError } from "../utils/errors";
+import { AuthRequest } from "../types";
 
 function refreshCookieOptions() {
     return {
@@ -72,11 +73,11 @@ export async function refreshToken(req: Request, res: Response, next: NextFuncti
     }
 }
 
-export async function getMe(req: any, res: Response, next: NextFunction) {
+export async function getMe(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-        const userId = req.user.id;
+        const userId = req.user?.id;
 
-        const user = await authService.getMe(userId)
+        const user = await authService.getMe(userId!)
         res.status(200).json({
             success: true, data: user
         })
@@ -86,14 +87,14 @@ export async function getMe(req: any, res: Response, next: NextFunction) {
     }
 }
 
-export async function logout(req: any, res: Response, next: NextFunction) {
+export async function logout(req: AuthRequest, res: Response, next: NextFunction) {
     try {
         const refreshToken = req.cookies?.[REFRESH_COOKIE];
         const accessToken = req.headers.authorization?.split(" ")[1]
-        const accessJti = req.user.jti
+        const accessJti = req.user?.jti
 
         if (refreshToken) {
-            await authService.logout(refreshToken, accessJti, accessToken)
+            await authService.logout(refreshToken, accessJti!, accessToken!)
         }
         res.clearCookie(REFRESH_COOKIE)
         res.status(200).json({

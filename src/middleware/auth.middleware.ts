@@ -1,9 +1,10 @@
-import { NextFunction, Response } from "express";
+import { Request,NextFunction, Response } from "express";
 import { AppError } from "../utils/errors";
 import { verifyAccessToken } from "../utils/jwt";
 import { redis } from '../config/redis'
+import { AuthRequest } from "../types";
 
-export async function authenticate(req: any, res: Response, next: NextFunction) {
+export async function authenticate(req: AuthRequest, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token)

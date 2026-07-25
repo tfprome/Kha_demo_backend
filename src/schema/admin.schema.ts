@@ -18,3 +18,13 @@ export const createProductSchema = z.object({
     isBestSelling: z.boolean().default(false),
     isActive: z.boolean().default(true),
 });
+
+export const listAdminProductsQuerySchema = z.object({
+    page: z.coerce.number().int().min(1).default(1),
+    limit: z.coerce.number().int().min(1).max(100).default(20),
+    q: z.string().optional(),
+    categoryId: z.string().uuid().optional(),
+    isActive: z.coerce.boolean().optional(),
+});
+
+export const updateProductSchema = createProductSchema.partial()
