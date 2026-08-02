@@ -69,7 +69,7 @@ export async function listProducts(query: listProductTypes) {
             categoryId: products.categoryId,
             createdAt: products.createdAt,
         })
-            .from(products).where(where).orderBy(desc(products.createdAt)).offset(offset)
+            .from(products).where(where).orderBy(desc(products.createdAt)).limit(limit).offset(offset)
     ])
 
     const total = Number(countResult[0]?.total ?? 0)
