@@ -1,5 +1,5 @@
-import {listProductsQuerySchema} from "../schema/product.schema";
-import {Request, Response, NextFunction} from "express";
+import { listProductsQuerySchema, getTopSellersQuerySchema } from "../schema/product.schema";
+import { Request, Response, NextFunction } from "express";
 import * as productService from '../services/products.service'
 
 export async function getProducts(req: Request, res: Response, next: NextFunction) {
@@ -13,4 +13,32 @@ export async function getProducts(req: Request, res: Response, next: NextFunctio
   }
   catch (err) {
     next(err)
-  }}
+  }
+}
+
+export async function getTopSellers(req: Request, res: Response, next: NextFunction) {
+  try {
+    const params = getTopSellersQuerySchema.parse(req.query)
+    const result = await productService.getTopSellers(params)
+    res.json({
+      success: true,
+      result
+    })
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
+export async function getProductById(req: Request, res: Response, next: NextFunction) {
+  try {
+    const result = await productService.getProductById(req.params.id as string)
+    res.json({
+      success: true,
+      data: result
+    })
+  }
+  catch (err) {
+    next(err)
+  }
+}
