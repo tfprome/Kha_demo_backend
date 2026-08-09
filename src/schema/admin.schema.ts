@@ -28,3 +28,12 @@ export const listAdminProductsQuerySchema = z.object({
 });
 
 export const updateProductSchema = createProductSchema.partial()
+
+export const createCategorySchema = z.object({
+    name:z.string().min(2),
+    nameBn:z.string().optional(),
+    slug:z.string().min(2).regex(/^[a-z0-9-]+$/, 'Slug must be lowercase alphanumeric with hyphens'),
+    sortOrder:z.number().int().min(0).default(0)
+})
+
+export const updateCategorySchema = createCategorySchema.partial()

@@ -20,7 +20,7 @@ export const products = pgTable("products", {
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [
     index("idx_products_category").on(table.categoryId),
-    index("idx_products_slug").on(table.slug),
+    //index("idx_products_slug").on(table.slug),
     index("idx_products_best_selling").on(table.isBestSelling),
     index("idx_products_stock").on(table.stockQty),
 ]

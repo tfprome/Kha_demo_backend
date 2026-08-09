@@ -158,3 +158,38 @@ export async function getProductById(id: string) {
     const result = transformProduct(product)
     return result
 }
+
+export async function listCategories() {
+    const cacheKey = 'cache:categories:all'
+    const cached = await getCache(cacheKey)
+    if (cached) return cached
+
+    const categorylist = await db.select({
+        id: categories.id,
+        name: categories.name,
+        nameBn: categories.nameBn,
+        sortOrder: categories.sortOrder,
+        slug: categories.slug,
+        productCount: sql<number>`count(${products.id})::int`
+    }).from(categories).where(eq(categories.isActive, true))
+        .leftJoin(products, and(eq(categories.id, products.categoryId), eq(products.isActive, true)))
+        .groupBy(categories.id)
+        .orderBy(asc(categories.sortOrder))
+
+    await setCache(cacheKey, categorylist, TTL.category)
+    return categorylist
+}
+
+export async function getCategoryBySlug(slug: string) {
+    const cacheKey = `cache:categories:slug:${slug}`
+    const cached = await getCache(cacheKey)
+    if (cached) return cached
+
+    const category = await db.query.categories.findFirst({
+        where: and(eq(categories.slug, slug), eq(categories.isActive, true))
+    })
+    if (!category) throw new AppError(404, 'CATEGORY_NOT_FOUND', 'Category not found')
+
+    await setCache(cacheKey, category, TTL.category)
+    return category
+}

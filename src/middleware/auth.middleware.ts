@@ -1,4 +1,4 @@
-import { Request,NextFunction, Response } from "express";
+import { Request, NextFunction, Response } from "express";
 import { AppError } from "../utils/errors";
 import { verifyAccessToken } from "../utils/jwt";
 import { redis } from '../config/redis'
@@ -10,7 +10,7 @@ export async function authenticate(req: AuthRequest, res: Response, next: NextFu
     if (!token)
         throw new AppError(401, "INVALID", 'invalid or expired token')
 
-    let payload;
+    let payload: ReturnType<typeof verifyAccessToken>;
     try {
         payload = verifyAccessToken(token);
     } catch {
@@ -26,5 +26,21 @@ export async function authenticate(req: AuthRequest, res: Response, next: NextFu
     }
 
     req.user = { id: payload.sub, role: payload.role, jti: payload.jti, email: payload.email }
+    next()
+}
+
+export async function authenticateOptional(req: AuthRequest, res: Response, next: NextFunction) {
+    const token = req.headers.authorization?.split(" ")[1]
+    if (!token) return next()
+
+    try {
+        const payload = verifyAccessToken(token)
+        const blocked = await redis.get(`blocklist:${payload.jti}`);
+        if (!blocked)
+            req.user = { id: payload.sub, role: payload.role, jti: payload.jti, email: payload.email }
+    }
+    catch {
+
+    }
     next()
 }

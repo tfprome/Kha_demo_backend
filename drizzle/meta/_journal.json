@@ -50,6 +50,34 @@
       "when": 1785658751148,
       "tag": "0006_medical_punisher",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1785825834131,
+      "tag": "0007_outgoing_puppet_master",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1785826021619,
+      "tag": "0008_cheerful_meggan",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1785910268263,
+      "tag": "0009_workable_the_anarchist",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1785995322870,
+      "tag": "0010_oval_pandemic",
+      "breakpoints": true
     }
   ]
 }
