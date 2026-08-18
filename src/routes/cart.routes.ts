@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCart,addItem } from "../controller/cart.controller";
+import { getCart, addItem, updateItem, removeItem } from "../controller/cart.controller";
 import { ensuresession } from "../middleware/session.middleware";
 import { authenticateOptional } from "../middleware/auth.middleware";
 
@@ -11,5 +11,9 @@ router.use(ensuresession, authenticateOptional)
 router.get('/', getCart)
 
 router.post('/items', addItem)
+
+router.patch('/items/:productId', updateItem)
+
+router.delete('/items/:productId', removeItem)
 
 export default router
